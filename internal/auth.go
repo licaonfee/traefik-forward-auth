@@ -97,9 +97,16 @@ func ValidateEmail(email string) bool {
 
 // Utility methods
 
+func getProto(r *http.Requests) string{
+	if config.ForceHTTPSProto {
+		return "https"
+	}
+	return r.Header.Get("X-Forwarded-Proto")
+}
+ 
 // Get the redirect base
 func redirectBase(r *http.Request) string {
-	proto := r.Header.Get("X-Forwarded-Proto")
+	proto := getProto(r)
 	host := r.Header.Get("X-Forwarded-Host")
 
 	return fmt.Sprintf("%s://%s", proto, host)
@@ -115,7 +122,7 @@ func returnUrl(r *http.Request) string {
 // Get oauth redirect uri
 func redirectUri(r *http.Request) string {
 	if use, _ := useAuthDomain(r); use {
-		proto := r.Header.Get("X-Forwarded-Proto")
+		proto := getProto(r)
 		return fmt.Sprintf("%s://%s%s", proto, config.AuthHost, config.Path)
 	}
 
