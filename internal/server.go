@@ -235,7 +235,7 @@ func (s *Server) logger(r *http.Request, handler, rule, msg string) *logrus.Entr
 		"handler":   handler,
 		"rule":      rule,
 		"method":    r.Header.Get("X-Forwarded-Method"),
-		"proto":     r.Header.Get("X-Forwarded-Proto"),
+		"proto":     getProto(r),
 		"host":      r.Header.Get("X-Forwarded-Host"),
 		"uri":       r.Header.Get("X-Forwarded-Uri"),
 		"source_ip": r.Header.Get("X-Forwarded-For"),

@@ -97,13 +97,13 @@ func ValidateEmail(email string) bool {
 
 // Utility methods
 
-func getProto(r *http.Requests) string{
+func getProto(r *http.Request) string {
 	if config.ForceHTTPSProto {
 		return "https"
 	}
 	return r.Header.Get("X-Forwarded-Proto")
 }
- 
+
 // Get the redirect base
 func redirectBase(r *http.Request) string {
 	proto := getProto(r)
